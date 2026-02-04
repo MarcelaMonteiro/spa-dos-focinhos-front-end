@@ -145,7 +145,7 @@ export default function Login() {
 								type="submit"
 								disabled={loading}
 								className="bg-[#B99577] hover:bg-[#A88465] disabled:opacity-60
-                text-white rounded-full h-12 font-semibold"
+                text-white rounded-full h-12 font-semibold cursor-pointer"
 							>
 								{loading ? "Entrando..." : "Entrar"}
 							</button>
@@ -153,7 +153,7 @@ export default function Login() {
 					</form>
 
 					<div className="mt-4 text-center">
-						<Link href="/register" className="text-[#8B7766]">
+						<Link href="/register" className="text-[#8B7766] cursor-pointer">
 							Não tem uma conta? Cadastre-se
 						</Link>
 					</div>

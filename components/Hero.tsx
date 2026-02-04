@@ -43,7 +43,9 @@ export default function Hero() {
 					<Button asChild variant="default">
 						<Link href="./about">Saiba mais</Link>
 					</Button>
-					<Button variant="outline">Agendar horário</Button>
+					<Button asChild variant="outline">
+						<Link href="../login">Agendar horário</Link>
+					</Button>
 				</div>
 			</div>
 		</section>

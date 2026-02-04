@@ -8,29 +8,45 @@ import React, {
 	useState,
 } from "react";
 
+/* ================================
+   Types
+================================ */
+
+type User = {
+	id: number;
+	name: string;
+	email: string;
+};
+
 type AuthContextType = {
 	token: string | null;
+	user: User | null;
 	isAuthenticated: boolean;
 	loading: boolean;
 	login: (token: string) => Promise<void>;
 	logout: () => void;
 };
 
+/* ================================
+   Context
+================================ */
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 const TOKEN_KEY = "token";
 
-/** cookie simples pro middleware (não é httpOnly) */
+/* ================================
+   Helpers
+================================ */
+
 function setTokenCookie(token: string | null) {
 	if (typeof document === "undefined") return;
 
 	if (!token) {
-		// expira cookie
 		document.cookie = `token=; Path=/; Max-Age=0; SameSite=Lax`;
 		return;
 	}
 
-	// cookie de sessão (você pode adicionar Max-Age se quiser)
 	document.cookie = `token=${encodeURIComponent(token)}; Path=/; SameSite=Lax`;
 }
 
@@ -44,8 +60,8 @@ function isJwtExpired(token: string): boolean {
 		const payloadPart = token.split(".")[1];
 		if (!payloadPart) return true;
 
-		// base64url -> base64
 		const base64 = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+
 		const json = decodeURIComponent(
 			atob(base64)
 				.split("")
@@ -54,8 +70,10 @@ function isJwtExpired(token: string): boolean {
 		);
 
 		const payload = JSON.parse(json);
+
 		const exp = payload?.exp;
-		if (!exp) return false; // se não tem exp, não considero expirado aqui
+		if (!exp) return false;
+
 		const now = Math.floor(Date.now() / 1000);
 		return now >= exp;
 	} catch {
@@ -63,27 +81,74 @@ function isJwtExpired(token: string): boolean {
 	}
 }
 
+/* ================================
+   Provider
+================================ */
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [token, setToken] = useState<string | null>(null);
+	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
 
-	// bootstrap: pega token do localStorage
+	/* ================================
+	   Load user from backend
+	================================ */
+
+	async function loadUser(jwt: string) {
+		try {
+			const res = await fetch("http://localhost:3001/auth/me", {
+				headers: {
+					Authorization: `Bearer ${jwt}`,
+				},
+			});
+
+			if (!res.ok) {
+				setUser(null);
+				return;
+			}
+
+			const data: User = await res.json();
+			setUser(data);
+		} catch {
+			setUser(null);
+		}
+	}
+
+	/* ================================
+	   Bootstrap on page refresh
+	================================ */
+
 	useEffect(() => {
 		const saved = readLocalToken();
-		if (saved && !isJwtExpired(saved)) {
-			setToken(saved);
-		} else {
-			// limpa lixo / expirado
-			if (saved) localStorage.removeItem(TOKEN_KEY);
-			setToken(null);
+
+		// sem token → termina loading
+		if (!saved) {
+			setLoading(false);
+			return;
 		}
-		setLoading(false);
+
+		// token expirado → limpa tudo
+		if (isJwtExpired(saved)) {
+			localStorage.removeItem(TOKEN_KEY);
+			setToken(null);
+			setUser(null);
+			setLoading(false);
+			return;
+		}
+
+		// token válido → carrega user
+		setToken(saved);
+
+		loadUser(saved).finally(() => {
+			setLoading(false);
+		});
 	}, []);
 
-	// side-effects: sempre que token mudar, sincroniza storage + cookie
-	useEffect(() => {
-		if (typeof window === "undefined") return;
+	/* ================================
+	   Sync token to storage + cookie
+	================================ */
 
+	useEffect(() => {
 		if (!token) {
 			localStorage.removeItem(TOKEN_KEY);
 			setTokenCookie(null);
@@ -94,28 +159,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		setTokenCookie(token);
 	}, [token]);
 
+	/* ================================
+	   Actions
+	================================ */
+
+	async function login(newToken: string) {
+		if (isJwtExpired(newToken)) {
+			setToken(null);
+			setUser(null);
+			return;
+		}
+
+		setToken(newToken);
+		await loadUser(newToken);
+	}
+
+	function logout() {
+		setToken(null);
+		setUser(null);
+	}
+
+	/* ================================
+	   Context Value
+	================================ */
+
 	const value = useMemo<AuthContextType>(
 		() => ({
 			token,
+			user,
 			isAuthenticated: !!token,
 			loading,
-			login: async (newToken: string) => {
-				// já valida exp aqui pra evitar salvar token morto
-				if (isJwtExpired(newToken)) {
-					setToken(null);
-					return;
-				}
-				setToken(newToken);
-			},
-			logout: () => {
-				setToken(null);
-			},
+			login,
+			logout,
 		}),
-		[token, loading],
+		[token, user, loading],
 	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
+
+/* ================================
+   Hook
+================================ */
 
 export function useAuth() {
 	const ctx = useContext(AuthContext);

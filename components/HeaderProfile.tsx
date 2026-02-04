@@ -1,15 +1,15 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/src/context/AuthContext";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { div } from "framer-motion/client";
 import Link from "next/link";
 
 export default function HeaderProfile() {
 	const [open, setOpen] = useState(false);
-	const { user, logout } = useAuth();
+	const { logout } = useAuth();
 	const router = useRouter();
 
 	function handleLogout() {
@@ -18,28 +18,64 @@ export default function HeaderProfile() {
 	}
 
 	return (
-		<header className="bg-[#F4ECE6]/80 backdrop-blur-md ">
-			<nav className="flex items-center md:justify-between md:px-10">
-				<div className="md:hidden flex items-center">
+		<header className="relative z-50 bg-[#F4ECE6]/80 backdrop-blur-md ">
+			<nav className="flex items-center justify-between px-6 md:px-10 py-4 overflow-hidden">
+				{/* Botão Mobile */}
+				<button className="md:hidden" onClick={() => setOpen(!open)}>
+					{open ? <X size={28} /> : <Menu size={28} />}
+				</button>
+
+				{/* Logo */}
+				<Link href="/dashboard">
+					<Image
+						src="/spalogo.png"
+						alt="Logo do Spa dos Focinhos"
+						width={90}
+						height={90}
+					/>
+				</Link>
+
+				{/* Desktop Links */}
+				<div className="hidden md:flex gap-6">
+					<Link href="/dashboard" className="hover:text-[#8B6A4F]">
+						Início
+					</Link>
+
+					<Link href="/appointments" className="hover:text-[#8B6A4F]">
+						Meus agendamentos
+					</Link>
+
+					<Link href="/profile" className="hover:text-[#8B6A4F]">
+						Perfil
+					</Link>
+
 					<button
-						className="md:hidden mr-24 px-3 flex items-center  "
-						onClick={() => setOpen(!open)}
+						onClick={handleLogout}
+						className="text-red-600 font-semibold hover:text-red-700"
 					>
-						{open ? <X size={28} /> : <Menu size={28} />}
+						Sair
 					</button>
 				</div>
+
+				{/* Dropdown Mobile */}
 				{open && (
-					<div className=" absolute top-full left-0 w-full md:hidden bg-[#F6F1EC] border-t border-[#E2D5C8] flex flex-col items-center px-6 py-6 space-y-4 shadow-lg ">
-						<span className="text-[#2B2B2B]">Olá, {user?.name}</span>
-						<hr className="py-full px-6 border-[#A98063] " />
-						<Link href="/appointments" className="text-[#2B2B2B]">
+					<div
+						className="absolute top-full left-0 w-full z-50 md:hidden 
+                          bg-[#F6F1EC] border-t border-[#E2D5C8]
+                          flex flex-col items-center px-6 py-6 space-y-4 shadow-lg"
+					>
+						<Link href="/dashboard" onClick={() => setOpen(false)}>
+							Início
+						</Link>
+
+						<Link href="/appointments" onClick={() => setOpen(false)}>
 							Meus agendamentos
 						</Link>
-						<hr className="py-full px-6 border-[#A98063] " />
-						<Link href="/profile" className="text-[#2B2B2B]">
+
+						<Link href="/profile" onClick={() => setOpen(false)}>
 							Meu Perfil
 						</Link>
-						<hr className="py-full px-6 border-[#A98063] " />
+
 						<button
 							onClick={handleLogout}
 							className="text-red-600 font-semibold"
@@ -48,32 +84,6 @@ export default function HeaderProfile() {
 						</button>
 					</div>
 				)}
-				<div className="flex justify-center items-center py-4 ">
-					<Image
-						src="/spalogo.png"
-						alt="Logo do Spa dos focinhos"
-						width={100}
-						height={100}
-					/>
-				</div>
-				<div className="hidden md:block ">
-					<div className="flex gap-4">
-						<span className="font-title">Olá, {user?.name}</span>
-
-						<Link
-							href="/appointments"
-							className="font-title hover:text-[#8B6A4F]"
-						>
-							Meus agendamentos
-						</Link>
-						<button
-							onClick={logout}
-							className="text-red-600 font-semibold hover:text-red-700 cursor-pointer"
-						>
-							Sair
-						</button>
-					</div>
-				</div>
 			</nav>
 		</header>
 	);
