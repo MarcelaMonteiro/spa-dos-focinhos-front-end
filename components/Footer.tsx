@@ -41,7 +41,7 @@ export default function Footer() {
 					</p>
 				</div>
 			</div>
-			<p className="text-[#EFE3D6]">
+			<p className="text-[#EFE3D6] text-center">
 				© 2026 Spa dos Focinhos. Todos os direitos reservados.
 			</p>
 		</footer>

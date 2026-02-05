@@ -57,7 +57,7 @@ export default function About() {
           animate-fadeIn
         "
 			>
-				<div className="max-w-xl mt-10 md:-mt-2 ">
+				<div className="max-w-xl mt-9 md:-mt-2 ">
 					<h2 className="font-title text-[#6A5A4E] font-bold text-[1.7rem] md:text-5xl whitespace-nowrap">
 						Sobre o Spa dos Focinhos
 					</h2>
@@ -106,8 +106,7 @@ export default function About() {
 							/>
 							Atendimento personalizado
 						</span>
-					</div>
-					<div className="">
+
 						<Image
 							src="/fotosobre.png"
 							alt="Pet relaxando no spa"
