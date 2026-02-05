@@ -28,7 +28,7 @@ export default function Hero() {
 				className="relative z-10 mx-10 md:mx-20 md:mx-25  
                       flex flex-col "
 			>
-				<div className="max-w-xl  md:space-y-6 space-y-2 md:mt-50  mt-40">
+				<div className="max-w-xl  md:space-y-6 space-y-2 md:mt-50  mt-30">
 					<h1 className="font-title text-4xl md:text-5xl font-bold leading-tight text-[#6A5A4E]">
 						Cuidado, carinho e <br className="hidden" />
 						bem-estar para o seu pet
