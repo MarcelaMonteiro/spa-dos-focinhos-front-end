@@ -32,17 +32,20 @@ export default function CreateAppointment() {
 		setLoading(true);
 
 		try {
-			const res = await fetch("http://localhost:3001/appointments/preview", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+			const res = await fetch(
+				"https://spa-dos-focinhos.onrender.com/appointments/preview",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`,
+					},
+					body: JSON.stringify({
+						petSize,
+						serviceType,
+					}),
 				},
-				body: JSON.stringify({
-					petSize,
-					serviceType,
-				}),
-			});
+			);
 
 			if (!res.ok) throw new Error("Erro ao calcular preço");
 
@@ -62,20 +65,23 @@ export default function CreateAppointment() {
 		setError(null);
 
 		try {
-			const res = await fetch("http://localhost:3001/appointments", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${localStorage.getItem("token")}`,
+			const res = await fetch(
+				"https://spa-dos-focinhos.onrender.com/appointments",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${localStorage.getItem("token")}`,
+					},
+					body: JSON.stringify({
+						petName,
+						petSize,
+						serviceType,
+						date,
+						time,
+					}),
 				},
-				body: JSON.stringify({
-					petName,
-					petSize,
-					serviceType,
-					date,
-					time,
-				}),
-			});
+			);
 
 			if (!res.ok) {
 				const data = await res.json();

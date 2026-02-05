@@ -25,7 +25,7 @@ export default function Appointments() {
 
 	if (appointments.length === 0) {
 		return (
-			<section className="relative flex flex-col items-center  h-[100vh] bg-[#F4ECE6] overflow-hidden">
+			<section className="relative flex flex-col items-center h-[100vh] bg-[#F4ECE6] overflow-hidden">
 				<Image
 					src="/fundodashboard.png"
 					alt="cachorrinho relaxando"

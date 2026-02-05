@@ -36,15 +36,18 @@ export default function Register() {
 		setLoading(true);
 
 		try {
-			const res = await fetch("http://localhost:3001/auth/signup", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					name,
-					email,
-					password,
-				}),
-			});
+			const res = await fetch(
+				"https://spa-dos-focinhos.onrender.com/auth/signup",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						name,
+						email,
+						password,
+					}),
+				},
+			);
 
 			const data = await res.json();
 

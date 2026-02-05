@@ -96,7 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	async function loadUser(jwt: string) {
 		try {
-			const res = await fetch("http://localhost:3001/auth/me", {
+			const res = await fetch("https://spa-dos-focinhos.onrender.com/auth/me", {
 				headers: {
 					Authorization: `Bearer ${jwt}`,
 				},

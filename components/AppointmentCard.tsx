@@ -26,12 +26,15 @@ export function AppointmentCard({
 
 		if (!confirm) return;
 
-		const res = await fetch(`http://localhost:3001/appointments/${id}`, {
-			method: "DELETE",
-			headers: {
-				Authorization: `Bearer ${localStorage.getItem("token")}`,
+		const res = await fetch(
+			`https://spa-dos-focinhos.onrender.com/appointments/${id}`,
+			{
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
 			},
-		});
+		);
 		if (!res.ok) {
 			alert("Erro ao cancelar agendamento");
 			return;

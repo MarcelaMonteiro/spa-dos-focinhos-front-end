@@ -113,7 +113,7 @@ export default function About() {
 							alt="Pet relaxando no spa"
 							width={2000}
 							height={2000}
-							className=" md:hidden  [mask-image:radial-gradient(circle,white_0%,transparent_100%)]
+							className=" md:hidden  mask-[radial-gradient(circle,white_0%,transparent_100%)]
     						[-webkit-mask-image:radial-gradient(circle,white_0%,transparent_100%)]"
 						/>
 					</div>

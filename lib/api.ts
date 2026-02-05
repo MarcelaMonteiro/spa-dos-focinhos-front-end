@@ -1,7 +1,7 @@
 export async function apiFetch(path: string, options: RequestInit = {}) {
 	const token = localStorage.getItem("token");
 
-	const res = await fetch(`http://localhost:3001${path}`, {
+	const res = await fetch(`https://spa-dos-focinhos.onrender.com${path}`, {
 		...options,
 		headers: {
 			"Content-Type": "application/json",

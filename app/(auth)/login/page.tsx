@@ -35,11 +35,14 @@ export default function Login() {
 		try {
 			setLoading(true);
 
-			const res = await fetch("http://localhost:3001/auth/signin", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, password }),
-			});
+			const res = await fetch(
+				"https://spa-dos-focinhos.onrender.com/auth/signin",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ email, password }),
+				},
+			);
 
 			const data = await res.json();
 
