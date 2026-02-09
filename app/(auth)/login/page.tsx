@@ -16,7 +16,6 @@ export default function Login() {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	/*  Bloqueia a página se já estiver autenticada */
 	useEffect(() => {
 		if (isAuthenticated) {
 			router.replace("/dashboard");
@@ -65,7 +64,7 @@ export default function Login() {
 	if (isAuthenticated) return null;
 
 	return (
-		<section className="bg-[#F4ECE6] h-screen flex flex-col justify-center items-center">
+		<section className="bg-[#F4ECE6] h-screen overflow-hidden flex flex-col justify-center items-center">
 			<div className="-mt-20">
 				<Link href="/">
 					<Image
@@ -80,7 +79,7 @@ export default function Login() {
 
 			<div
 				className="bg-[#EFE4DB] shadow-[0_20px_40px_rgba(0,0,0,0.06)]
-        w-[350px] md:w-[450px] rounded-3xl p-4 mt-4"
+         md:w-[450px]   rounded-3xl p-4 mt-4 "
 			>
 				<div className="flex flex-col items-center gap-2">
 					<h2 className="text-[#6A5A4E] text-2xl font-bold">
@@ -89,7 +88,7 @@ export default function Login() {
 					<p className="text-[#8B7766]">Faça login para continuar</p>
 				</div>
 
-				<div className="bg-[#FBF7F4] p-9 mt-6 rounded-2xl">
+				<div className="bg-[#FBF7F4] p-9 mt-6 rounded-2xl ">
 					<form onSubmit={handleSubmit}>
 						<div className="flex flex-col gap-5">
 							<div className="relative">
@@ -110,7 +109,7 @@ export default function Login() {
 								/>
 							</div>
 
-							<div className="relative">
+							<div className="relative overflow-hidden">
 								<Lock
 									className="absolute left-4 top-1/2 -translate-y-1/2 text-[#B99577]"
 									size={18}

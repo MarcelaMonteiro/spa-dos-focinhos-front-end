@@ -24,7 +24,7 @@ export default function HeaderProfile() {
 					{open ? <X size={28} /> : <Menu size={28} />}
 				</button>
 
-				<Link href="/dashboard">
+				<Link href="/">
 					<Image
 						src="/spalogo.png"
 						alt="Logo do Spa dos Focinhos"

@@ -27,7 +27,7 @@ export default function ProfilePage() {
 	}
 
 	return (
-		<section className="relative h-[100vh] bg-[#F4ECE6] flex items-center justify-center ">
+		<section className="relative h-[100vh] bg-[#F4ECE6] flex items-center justify-center overflow-hidden ">
 			<Image
 				src="/fundodashboard.png"
 				alt="cachorrinho relaxando"

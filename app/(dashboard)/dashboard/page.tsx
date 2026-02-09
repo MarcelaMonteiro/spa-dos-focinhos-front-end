@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Appointment, getMyAppointments } from "@/lib/appointments";
 import Image from "next/image";
 import { useAuth } from "@/src/context/AuthContext";
-import { AppointmentCard } from "@/components/AppointmentCard";
-import { useRouter } from "next/navigation";
+
 import Link from "next/link";
 export default function Dashboard() {
 	const { user } = useAuth();
